@@ -20,8 +20,9 @@ async function cleanup(exitCode: number = 0) {
   const promises: Promise<void>[] = [];
   
   if (sellerProcess?.pid) {
+    const pid = sellerProcess.pid;
     promises.push(new Promise((resolve) => {
-      kill(sellerProcess!.pid!, 'SIGTERM', () => {
+      kill(pid, 'SIGTERM', () => {
         console.log('✓ Stopped Seller');
         resolve();
       });
@@ -29,8 +30,9 @@ async function cleanup(exitCode: number = 0) {
   }
   
   if (dashboardProcess?.pid) {
+    const pid = dashboardProcess.pid;
     promises.push(new Promise((resolve) => {
-      kill(dashboardProcess!.pid!, 'SIGTERM', () => {
+      kill(pid, 'SIGTERM', () => {
         console.log('✓ Stopped Dashboard');
         resolve();
       });
