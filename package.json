@@ -16,6 +16,7 @@
     "demo": "concurrently --kill-others --success first \"npm run seller-api\" \"npm run dashboard\" \"npx wait-on http://localhost:3001/api/health && npm run buyer-agent\"",
     "demo:watch": "concurrently --kill-others \"npm run seller-api\" \"npm run dashboard\"",
     "demo:pay": "npx wait-on http://localhost:3001/api/health && npm run buyer-agent",
+    "demo:dry": "npx tsx test/integration/dry-run.ts",
     "stress-test": "npx tsx scripts/stress-test.ts",
     "stress-parallel": "npx tsx scripts/stress-parallel.ts",
     "simulate-degradation": "npx tsx scripts/simulate-degradation.ts",
