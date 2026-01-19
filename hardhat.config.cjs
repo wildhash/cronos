@@ -1,11 +1,15 @@
-import { HardhatUserConfig } from "hardhat/config";
-import "@nomicfoundation/hardhat-ethers";
-import "@nomicfoundation/hardhat-chai-matchers";
-import * as dotenv from "dotenv";
-
+const dotenv = require("dotenv");
 dotenv.config();
 
-const config: HardhatUserConfig = {
+require("@nomicfoundation/hardhat-ethers");
+require("@nomicfoundation/hardhat-chai-matchers");
+
+// Use a default test private key if none is provided or if it's invalid
+const PRIVATE_KEY = process.env.PRIVATE_KEY && process.env.PRIVATE_KEY !== 'your_private_key_here' && process.env.PRIVATE_KEY.length === 66
+  ? process.env.PRIVATE_KEY
+  : "0x0000000000000000000000000000000000000000000000000000000000000001";
+
+const config = {
   solidity: {
     version: "0.8.24",
     settings: {
@@ -21,19 +25,19 @@ const config: HardhatUserConfig = {
     // Cronos Mainnet
     cronos: {
       url: process.env.CRONOS_RPC_URL || "https://evm.cronos.org",
-      accounts: process.env.PRIVATE_KEY ? [process.env.PRIVATE_KEY] : [],
+      accounts: [PRIVATE_KEY],
       chainId: 25,
     },
     // Cronos Testnet
     cronosTestnet: {
       url: process.env.CRONOS_TESTNET_RPC_URL || "https://evm-t3.cronos.org",
-      accounts: process.env.PRIVATE_KEY ? [process.env.PRIVATE_KEY] : [],
+      accounts: [PRIVATE_KEY],
       chainId: 338,
     },
     // Keep Monad for backwards compatibility
     monadTestnet: {
       url: process.env.MONAD_RPC_URL || "https://testnet.monad.xyz",
-      accounts: process.env.PRIVATE_KEY ? [process.env.PRIVATE_KEY] : [],
+      accounts: [PRIVATE_KEY],
       chainId: 41454,
     },
   },
@@ -42,6 +46,9 @@ const config: HardhatUserConfig = {
     tests: "./test",
     cache: "./cache",
     artifacts: "./artifacts",
+  },
+  mocha: {
+    require: ['ts-node/register']
   },
   etherscan: {
     apiKey: {
@@ -69,4 +76,4 @@ const config: HardhatUserConfig = {
   },
 };
 
-export default config;
+module.exports = config;
