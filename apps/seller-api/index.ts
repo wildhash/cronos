@@ -141,6 +141,7 @@ function requirePayment(requirements: PaymentRequirements) {
     // No payment header - return 402
     if (!paymentHeader) {
       return res.status(402).json({
+        schemaVersion: '1.0.0',
         paymentRequired: true,
         amount: requirements.amount,
         currency: 'USDC.e',
@@ -159,6 +160,7 @@ function requirePayment(requirements: PaymentRequirements) {
 
     if (!verifyResult.valid) {
       return res.status(402).json({
+        schemaVersion: '1.0.0',
         paymentRequired: true,
         error: 'Payment verification failed',
         details: verifyResult.error,
@@ -175,6 +177,7 @@ function requirePayment(requirements: PaymentRequirements) {
 
     if (!settleResult.success) {
       return res.status(402).json({
+        schemaVersion: '1.0.0',
         paymentRequired: true,
         error: 'Payment settlement failed',
         details: settleResult.error,
