@@ -39,6 +39,13 @@ jobs:
         SELLER_API_PORT: 3001
         SELLER_ADDRESS: '0x0000000000000000000000000000000000000000'
     
+    - name: Run demo dry run
+      run: npm run demo:dry
+      env:
+        SELLER_API_PORT: 3001
+        DASHBOARD_PORT: 3000
+        SELLER_ADDRESS: '0x0000000000000000000000000000000000000000'
+    
     - name: Compile contracts
       run: npm run compile
     

@@ -1,6 +1,7 @@
 import express from 'express';
 import { ethers } from 'ethers';
 import { ParallelPaySDK, X402PaymentSDK } from '../sdk/index.js';
+import { getRecentPayments, getRecentRefunds, getReceiptStats } from '../sdk/receipts.js';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import fs from 'fs';
@@ -88,6 +89,21 @@ app.use(express.static(path.join(__dirname, 'public')));
 // =============================================================================
 // API ROUTES
 // =============================================================================
+
+/**
+ * Health check endpoint
+ */
+app.get('/api/health', (req, res) => {
+  res.json({
+    ok: true,
+    name: 'Cronos ParallelPay Dashboard',
+    version: '2.0.0',
+    chainId: chainId,
+    network: deploymentInfo?.network || networkConfig.name,
+    facilitatorUrl: 'https://facilitator.cronoslabs.org/v2/x402',
+    timestamp: new Date().toISOString(),
+  });
+});
 
 /**
  * Deployment and connection info
@@ -233,6 +249,11 @@ app.get('/api/payment-requests/:count?', async (req, res) => {
  */
 app.get('/api/payments', (req, res) => {
   const count = Math.min(parseInt(req.query.count as string) || 20, 100);
+  
+  // Get from persistent storage
+  const persistedPayments = getRecentPayments(count);
+  
+  // Merge with in-memory (for backwards compatibility)
   const recentPayments = x402Payments
     .sort((a, b) => b.timestamp - a.timestamp)
     .slice(0, count)
@@ -240,12 +261,18 @@ app.get('/api/payments', (req, res) => {
       ...p,
       explorerUrl: getExplorerTxUrl(p.txHash, chainId),
     }));
+  
+  // Combine and deduplicate
+  const allPayments = [...persistedPayments, ...recentPayments];
+  const uniquePayments = Array.from(
+    new Map(allPayments.map(p => [p.txHash, p])).values()
+  ).sort((a, b) => b.timestamp - a.timestamp).slice(0, count);
 
   res.json({
     network: deploymentInfo?.network,
     chainId: chainId,
-    payments: recentPayments,
-    total: x402Payments.length,
+    payments: uniquePayments,
+    total: uniquePayments.length,
   });
 });
 
@@ -266,6 +293,11 @@ app.post('/api/payments', (req, res) => {
  */
 app.get('/api/refunds', (req, res) => {
   const count = Math.min(parseInt(req.query.count as string) || 20, 100);
+  
+  // Get from persistent storage
+  const persistedRefunds = getRecentRefunds(count);
+  
+  // Merge with in-memory
   const recentRefunds = refundEvents
     .sort((a, b) => b.timestamp - a.timestamp)
     .slice(0, count)
@@ -273,12 +305,18 @@ app.get('/api/refunds', (req, res) => {
       ...r,
       explorerUrl: r.txHash ? getExplorerTxUrl(r.txHash, chainId) : null,
     }));
+  
+  // Combine and deduplicate
+  const allRefunds = [...persistedRefunds, ...recentRefunds];
+  const uniqueRefunds = Array.from(
+    new Map(allRefunds.map((r, i) => [r.refundTxHash || i, r])).values()
+  ).sort((a, b) => b.timestamp - a.timestamp).slice(0, count);
 
   res.json({
     network: deploymentInfo?.network,
     chainId: chainId,
-    refunds: recentRefunds,
-    total: refundEvents.length,
+    refunds: uniqueRefunds,
+    total: uniqueRefunds.length,
   });
 });
 
@@ -299,12 +337,18 @@ app.post('/api/refunds', (req, res) => {
  */
 app.get('/api/stats', async (req, res) => {
   try {
+    const receiptStats = getReceiptStats();
+    
     const stats: any = {
       network: deploymentInfo?.network || 'Unknown',
       chainId: chainId,
       explorerUrl: networkConfig.explorerUrl,
       x402PaymentsCount: x402Payments.length,
       refundEventsCount: refundEvents.length,
+      persistedPayments: receiptStats.totalPayments,
+      persistedRefunds: receiptStats.totalRefunds,
+      totalPaidAmount: receiptStats.totalPaid,
+      totalRefundedAmount: receiptStats.totalRefunded,
     };
 
     if (parallelPaySDK) {

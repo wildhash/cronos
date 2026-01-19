@@ -22,3 +22,7 @@ out/
 # Logs
 *.log
 logs/
+
+# Data
+data/receipts.json
+data/*.json

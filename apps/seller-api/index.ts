@@ -21,6 +21,7 @@ import {
   getExplorerTxUrl,
   formatUSDC
 } from '../../constants/cronos.js';
+import { addPaymentReceipt } from '../../sdk/receipts.js';
 
 dotenv.config();
 
@@ -198,6 +199,25 @@ function requirePayment(requirements: PaymentRequirements) {
       settled: true,
     };
     payments.set(settleResult.txHash!, paymentRecord);
+
+    // Persist receipt to disk
+    try {
+      addPaymentReceipt({
+        txHash: settleResult.txHash!,
+        payer: verifyResult.payer!,
+        recipient: SELLER_ADDRESS,
+        amount: requirements.amount,
+        currency: 'USDC.e',
+        resource: req.path,
+        timestamp: Date.now(),
+        chainId: CHAIN_ID,
+        explorerUrl: getExplorerTxUrl(settleResult.txHash!, CHAIN_ID),
+        facilitatorUrl: X402_FACILITATOR.baseUrl,
+        schemaVersion: '1.0.0',
+      });
+    } catch (err) {
+      console.error('[x402] Failed to persist receipt:', err);
+    }
 
     // Add payment info to request for downstream handlers
     (req as any).payment = paymentRecord;
