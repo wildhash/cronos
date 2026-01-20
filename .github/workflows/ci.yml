@@ -33,14 +33,21 @@ jobs:
     - name: Install dependencies
       run: npm ci --legacy-peer-deps
     
+    - name: Compile contracts
+      run: npm run compile
+    
     - name: Run smoke tests
       run: npm run test-smoke
       env:
         SELLER_API_PORT: 3001
         SELLER_ADDRESS: '0x0000000000000000000000000000000000000000'
     
-    - name: Compile contracts
-      run: npm run compile
+    - name: Run demo dry run
+      run: npm run demo:dry
+      env:
+        SELLER_API_PORT: 3001
+        DASHBOARD_PORT: 3000
+        SELLER_ADDRESS: '0x0000000000000000000000000000000000000000'
     
     - name: Run Hardhat tests
       run: npm run test-hardhat || echo "Hardhat tests skipped"

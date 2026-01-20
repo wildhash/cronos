@@ -1,0 +1,104 @@
+{
+  "$schema": "../contracts/x402.json",
+  "name": "Premium Real-Time Market Data API",
+  "description": "SLA-backed API with graduated refund tiers for latency and uptime breaches",
+  "version": "1.0.0",
+  "resource": "/api/premium-data",
+  "sla": {
+    "latency": {
+      "p95_ms": 200,
+      "p99_ms": 500,
+      "description": "95th percentile response time must be under 200ms, 99th under 500ms"
+    },
+    "uptime": {
+      "percent": 99.9,
+      "measurement_window": "daily",
+      "description": "99.9% uptime measured over 24-hour windows"
+    },
+    "jitter": {
+      "max_ms": 50,
+      "description": "Maximum response time variation of 50ms"
+    },
+    "error_rate": {
+      "max_percent": 0.5,
+      "description": "Maximum 0.5% failed requests"
+    }
+  },
+  "pricing": {
+    "per_call": "0.10 USDC.e",
+    "monthly_subscription": "100.00 USDC.e",
+    "currency": "USDC.e",
+    "chainId": 338
+  },
+  "refund_tiers": [
+    {
+      "name": "Minor Breach",
+      "condition": "p95 latency >200ms for 5 consecutive minutes",
+      "refund_percent": 10,
+      "description": "10% refund on affected calls",
+      "example": "5 min breach at 250ms avg = $0.01 refund per call during breach"
+    },
+    {
+      "name": "Moderate Breach",
+      "condition": "Daily uptime <99.5%",
+      "refund_percent": 25,
+      "description": "25% refund on daily subscription cost",
+      "example": "99.0% uptime = $25 refund on $100 monthly subscription"
+    },
+    {
+      "name": "Severe Breach",
+      "condition": "Daily uptime <99.0% OR p99 >500ms for 10+ minutes",
+      "refund_percent": 50,
+      "description": "50% refund on daily subscription cost",
+      "example": "98% uptime = $50 refund on $100 monthly subscription"
+    },
+    {
+      "name": "Critical Breach",
+      "condition": "3+ severe breaches in 24 hours",
+      "refund_percent": 100,
+      "auto_cancel": true,
+      "description": "Full refund + automatic stream cancellation",
+      "example": "3 severe outages = $100 full refund + service terminated"
+    }
+  ],
+  "monitoring": {
+    "sample_interval_seconds": 10,
+    "breach_detection_window_minutes": 5,
+    "oracle_address": "TBD - deployed AgentOracle address",
+    "automated": true
+  },
+  "demo_scenarios": {
+    "normal_operation": {
+      "description": "API performs within SLA bounds",
+      "simulated_latency_p95": 150,
+      "simulated_uptime": 100.0,
+      "expected_refund": 0
+    },
+    "minor_breach": {
+      "description": "Temporary latency spike",
+      "simulated_latency_p95": 350,
+      "duration_minutes": 5,
+      "expected_refund_percent": 10
+    },
+    "moderate_breach": {
+      "description": "Daily uptime degradation",
+      "simulated_uptime": 99.2,
+      "expected_refund_percent": 25
+    },
+    "severe_breach": {
+      "description": "Significant outage",
+      "simulated_uptime": 98.5,
+      "expected_refund_percent": 50
+    }
+  },
+  "contract_parameters": {
+    "maxLatencyMs": 200,
+    "minUptimePercent": 9990,
+    "maxErrorRate": 50,
+    "maxJitterMs": 50,
+    "refundTier1Percent": 1000,
+    "refundTier2Percent": 2500,
+    "refundTier3Percent": 5000,
+    "autoStopOnSevereBreach": true
+  }
+}
