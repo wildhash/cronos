@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 /**
- * Cronos ParallelPay - Dry Run Demo (CI/Offline Mode)
+ * Cronox ParallelPay - Dry Run Demo (CI/Offline Mode)
  * 
  * This script validates the demo flow without requiring:
  * - Real blockchain transactions
@@ -233,7 +233,7 @@ async function cleanup() {
 }
 
 async function main() {
-  printBanner('Cronos ParallelPay - Dry Run (CI Mode)');
+  printBanner('Cronox ParallelPay - Dry Run (CI Mode)');
   
   printInfo('Testing without blockchain transactions');
   printInfo('Perfect for CI and offline development');

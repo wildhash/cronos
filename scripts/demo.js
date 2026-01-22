@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 /**
- * Cronos ParallelPay - One-Command Demo Orchestrator
+ * Cronox ParallelPay - One-Command Demo Orchestrator
  * 
  * This script provides a bulletproof, cinematic demo experience:
  * 1. Starts seller API + dashboard
@@ -258,7 +258,7 @@ async function cleanup() {
  * Main demo flow
  */
 async function main() {
-  printBanner('Cronos ParallelPay - Judge Mode Demo');
+  printBanner('Cronox ParallelPay - Judge Mode Demo');
   
   printInfo(`Seller URL:    ${SELLER_URL}`);
   printInfo(`Dashboard URL: ${DASHBOARD_URL}`);

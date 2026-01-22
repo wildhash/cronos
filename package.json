@@ -1,5 +1,5 @@
 {
-  "name": "cronos-parallelpay",
+  "name": "cronox-parallelpay",
   "version": "2.0.0",
   "description": "Agentic, gasless x402 micropayments + streaming payouts with SLA-backed refunds on Cronos.",
   "main": "index.js",
@@ -74,7 +74,7 @@
   "type": "module",
   "repository": {
     "type": "git",
-    "url": "https://github.com/wildhash/cronos.git"
+    "url": "https://github.com/wildhash/cronox.git"
   },
   "engines": {
     "node": ">=18.0.0"

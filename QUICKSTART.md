@@ -6,8 +6,8 @@ Get ParallelStream up and running with SLA-enforced payment streaming in 5 minut
 
 ```bash
 # Clone repository
-git clone https://github.com/wildhash/monad-parallelstream.git
-cd monad-parallelstream
+git clone https://github.com/wildhash/cronox.git
+cd cronox
 
 # Install dependencies
 npm install --legacy-peer-deps

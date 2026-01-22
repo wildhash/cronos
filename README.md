@@ -1,4 +1,4 @@
-# Cronos ParallelPay
+# Cronox ParallelPay
 
 **Agentic, gasless x402 micropayments + streaming payouts with SLA-backed refunds on Cronos.**
 
@@ -6,7 +6,7 @@
 
 ## 🚀 30-Second Pitch
 
-**Cronos ParallelPay** is production-grade payment infrastructure for the AI agent economy:
+**Cronox ParallelPay** is production-grade payment infrastructure for the AI agent economy:
 
 - **🔐 x402 Gasless Micropayments**: HTTP 402 protocol with EIP-3009 — buyers pay zero gas fees
 - **🤖 Agentic Buyers & Sellers**: Autonomous agents handle the complete payment flow
@@ -24,8 +24,8 @@
 
 ```bash
 # 1. Clone
-git clone https://github.com/wildhash/cronos.git
-cd cronos
+git clone https://github.com/wildhash/cronox.git
+cd cronox
 
 # 2. Install
 npm install --legacy-peer-deps
@@ -233,7 +233,7 @@ npm run demo:dry
 
 ```
                     ┌─────────────────────────────────────────────────────┐
-                    │                  CRONOS x402 FLOW                    │
+                    │                  CRONOX x402 FLOW                    │
                     └─────────────────────────────────────────────────────┘
 
    ┌─────────────┐         1. GET /api/data          ┌─────────────────────┐
@@ -282,8 +282,8 @@ npm run demo:dry
 ### Installation
 
 ```bash
-git clone https://github.com/wildhash/cronos.git
-cd cronos
+git clone https://github.com/wildhash/cronox.git
+cd cronox
 npm install --legacy-peer-deps
 
 cp .env.example .env

@@ -1,5 +1,5 @@
 /**
- * Cronos ParallelPay - Seller API (x402 Server)
+ * Cronox ParallelPay - Seller API (x402 Server)
  *
  * An x402-compliant Express server that:
  * 1. Returns HTTP 402 with payment requirements when unauthorized
@@ -242,7 +242,7 @@ function requirePayment(requirements: PaymentRequirements) {
 app.get('/api/health', (req: Request, res: Response) => {
   res.json({
     status: 'ok',
-    service: 'Cronos ParallelPay Seller API',
+    service: 'Cronox ParallelPay Seller API',
     network: CRONOS_TESTNET.name,
     chainId: CHAIN_ID,
     facilitator: X402_FACILITATOR.baseUrl,
@@ -392,7 +392,7 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
 app.listen(PORT, () => {
   console.log('');
   console.log('='.repeat(60));
-  console.log('  Cronos ParallelPay - Seller API (x402 Server)');
+  console.log('  Cronox ParallelPay - Seller API (x402 Server)');
   console.log('='.repeat(60));
   console.log('');
   console.log(`  Server:     http://localhost:${PORT}`);

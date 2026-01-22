@@ -72,7 +72,7 @@ async function main() {
 
   console.log('');
   console.log('='.repeat(60));
-  console.log(`  Cronos ParallelPay - Contract Deployment`);
+  console.log(`  Cronox ParallelPay - Contract Deployment`);
   console.log('='.repeat(60));
   console.log('');
   console.log(`Network:  ${network.name} (Chain ID: ${network.chainId})`);

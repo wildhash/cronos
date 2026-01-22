@@ -1,5 +1,5 @@
 /**
- * Cronos ParallelPay - Buyer Agent
+ * Cronox ParallelPay - Buyer Agent
  *
  * An autonomous agent that:
  * 1. Detects HTTP 402 responses
@@ -291,7 +291,7 @@ class BuyerAgent {
 async function runDemo() {
   console.log('');
   console.log('='.repeat(60));
-  console.log('  Cronos ParallelPay - Buyer Agent Demo');
+  console.log('  Cronox ParallelPay - Buyer Agent Demo');
   console.log('='.repeat(60));
   console.log('');
 

@@ -96,7 +96,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.get('/api/health', (req, res) => {
   res.json({
     ok: true,
-    name: 'Cronos ParallelPay Dashboard',
+    name: 'Cronox ParallelPay Dashboard',
     version: '2.0.0',
     chainId: chainId,
     network: deploymentInfo?.network || networkConfig.name,
@@ -110,7 +110,7 @@ app.get('/api/health', (req, res) => {
  */
 app.get('/api/info', (req, res) => {
   res.json({
-    service: 'Cronos ParallelPay Dashboard',
+    service: 'Cronox ParallelPay Dashboard',
     network: deploymentInfo?.network || 'Unknown',
     chainId: chainId,
     explorerUrl: networkConfig.explorerUrl,
@@ -381,7 +381,7 @@ app.get('/api/stats', async (req, res) => {
 const server = app.listen(PORT, () => {
   console.log('');
   console.log('='.repeat(60));
-  console.log('  Cronos ParallelPay Dashboard');
+  console.log('  Cronox ParallelPay Dashboard');
   console.log('='.repeat(60));
   console.log('');
   console.log(`  URL:       http://localhost:${PORT}`);

@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 /**
- * Cronos ParallelPay - SLA Breach Demo
+ * Cronox ParallelPay - SLA Breach Demo
  * 
  * Demonstrates SLA breach detection and graduated refund tiers:
  * - Simulates artificial latency spike or uptime drop
@@ -275,7 +275,7 @@ async function cleanup() {
 }
 
 async function main() {
-  printBanner('Cronos ParallelPay - SLA Breach Demo');
+  printBanner('Cronox ParallelPay - SLA Breach Demo');
   
   // Load SLA config
   const slaConfigPath = path.join(__dirname, '..', 'examples', 'sla-demo.json');
